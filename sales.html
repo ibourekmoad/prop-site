@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prop Firm Risk Tracker — Stop Failing Challenges on Drawdown</title>
+<meta name="description" content="A spreadsheet that watches your daily loss limit, drawdown and position size so you don't get failed on a technicality. Excel + Google Sheets. $19.">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #fff; color: #1b2430;
+    font: 18px/1.75 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: #FF6A00; }
+  .bar { height: 5px; background: #FF6A00; }
+  .wrap { max-width: 720px; margin: 0 auto; padding: 0 24px; }
+  header { background: #12233F; color: #fff; padding: 52px 24px 46px; }
+  h1 { font-size: 38px; line-height: 1.18; margin: 0 0 16px; letter-spacing: -1px; }
+  .sub { color: #B9C7DA; font-size: 20px; margin: 0 0 26px; line-height: 1.55; }
+  main { padding: 44px 0 70px; }
+  h2 { font-size: 27px; letter-spacing: -0.5px; margin: 46px 0 14px; line-height: 1.25; }
+  h3 { font-size: 20px; margin: 26px 0 8px; }
+  p { margin: 0 0 20px; }
+  .lead { font-size: 21px; line-height: 1.65; }
+  ul { margin: 0 0 22px; padding-left: 22px; }
+  li { margin: 9px 0; }
+  .check { list-style: none; padding-left: 0; }
+  .check li { padding-left: 30px; position: relative; }
+  .check li::before { content: "✓"; position: absolute; left: 0; color: #FF6A00; font-weight: 700; }
+  .no li::before { content: "✗"; color: #b6483a; }
+  strong { font-weight: 700; }
+  .box {
+    background: #F7F8FA; border: 1px solid #e4e9ef; border-radius: 12px;
+    padding: 26px 28px; margin: 28px 0;
+  }
+  .box.dark { background: #12233F; color: #fff; border-color: #12233F; }
+  .box.dark h3 { margin-top: 0; }
+  .cta {
+    display: block; text-align: center; background: #FF6A00; color: #fff;
+    font-weight: 700; font-size: 19px; padding: 18px 28px; border-radius: 10px;
+    margin: 30px 0 12px; text-decoration: none;
+  }
+  .cta:hover { opacity: 0.93; text-decoration: none; }
+  .guarantee { text-align: center; color: #7a8798; font-size: 15px; margin: 0 0 10px; }
+  .price { text-align: center; font-size: 15px; color: #7a8798; margin: 0 0 30px; }
+  .price s { color: #b0bac6; }
+  .num { color: #FF6A00; font-weight: 700; }
+  table { width: 100%; border-collapse: collapse; margin: 22px 0; font-size: 16px; }
+  th, td { text-align: left; padding: 12px 14px; border-bottom: 1px solid #e4e9ef; }
+  th { background: #F7F8FA; font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; color: #5a6b80; }
+  .faq { margin: 12px 0 22px; }
+  .faq h3 { margin-bottom: 4px; }
+  .faq p { margin-bottom: 18px; color: #46546a; }
+  footer { background: #12233F; color: #9FB2CC; padding: 32px 24px 50px; font-size: 14px; }
+  footer a { color: #B9C7DA; }
+</style>
+</head>
+<body>
+<div class="bar"></div>
+<header>
+  <div class="wrap">
+    <h1>You didn't fail the challenge because your strategy is bad.</h1>
+    <p class="sub">You failed because of a rule. And it's almost always the same one.</p>
+  </div>
+</header>
+
+<main><div class="wrap">
+
+<p class="lead">You failed because on day 12 you were already 80% through today's loss
+allowance and you took another trade anyway. Because you didn't notice your position size
+was three times what it should have been on the trade that mattered.</p>
+
+<p>The strategy was never the problem. <strong>The risk tracking was.</strong></p>
+
+<h2>The firm isn't judging your entries</h2>
+
+<p>They're watching three numbers. Break one and you're out, regardless of how good your
+trades were:</p>
+
+<ul>
+  <li><strong>Daily loss limit</strong> — how much you can lose in one day. Usually 5%.</li>
+  <li><strong>Max drawdown</strong> — total over the account. Usually 10%.</li>
+  <li><strong>Consistency</strong> — whether one lucky day produced all your profit.</li>
+</ul>
+
+<p>Most traders can't name all three. Then they wonder why the account is gone.</p>
+
+<h2>What this actually is</h2>
+
+<p>A spreadsheet that watches those numbers for you.</p>
+
+<p>Before every trade it tells you exactly how many units to take. After every trade it
+tells you exactly how much room you have left — today, and for the whole account. No
+guessing. No "I think I'm still fine".</p>
+
+<p>Just a status light: <strong>SAFE</strong>, <strong>CAUTION</strong>, or
+<strong>STOP TRADING</strong>.</p>
+
+<div class="box dark">
+  <h3>Six working tabs, plus a Start Here guide</h3>
+  <ul>
+    <li><strong>Setup</strong> — your firm's numbers once. Everything calculates from these.</li>
+    <li><strong>Position Sizer</strong> — entry and stop in, exact unit count out. Rounded down so you never oversize.</li>
+    <li><strong>Trade Log</strong> — risk, P&amp;L, R-multiple, running equity, peak equity, drawdown. Fill the yellow cells, the rest is automatic.</li>
+    <li><strong>Dashboard</strong> — one screen. Status light, today's P&amp;L, progress to target, win rate, profit factor, average R.</li>
+    <li><strong>Daily Rollup</strong> — flags CAUTION the moment you've used half your daily loss limit.</li>
+    <li><strong>Firm Rules</strong> — reference for common firms, with a column to verify each yourself.</li>
+    <li><strong>Start Here</strong> — a one-page guide. Five minutes to learn.</li>
+  </ul>
+</div>
+
+<h2>Who this is for</h2>
+<ul class="check">
+  <li>Traders doing a prop-firm challenge — any firm, any instrument</li>
+  <li>Funded traders who need to <em>keep</em> the account, not just get it</li>
+  <li>Anyone on a small account who keeps oversizing</li>
+</ul>
+
+<h2>Who this is not for</h2>
+<ul class="check no">
+  <li>Anyone looking for signals, a strategy, or a bot. This is risk management, not entries.</li>
+  <li>Anyone expecting a spreadsheet to make them profitable. It protects you from yourself. It does not find your edge.</li>
+</ul>
+
+<p>Being straight about that matters more than a bigger promise. If you want signals, this
+isn't it and you'll be disappointed.</p>
+
+<h2>What it gives you</h2>
+<ul class="check">
+  <li>You stop blowing challenges on drawdown instead of on skill</li>
+  <li>You know your exact position size before every entry — no mental maths</li>
+  <li>You see the daily loss limit approaching <em>before</em> you hit it</li>
+  <li>You get an honest read on your edge: win rate, profit factor, average R</li>
+  <li>You have a trade record your firm can actually audit</li>
+</ul>
+
+<h2>How it works</h2>
+<table>
+  <tr><th>Step</th><th>What you do</th><th>Time</th></tr>
+  <tr><td>1</td><td>Open Setup, type in your firm's rules</td><td>5 min, once</td></tr>
+  <tr><td>2</td><td>Open Position Sizer before every trade</td><td>30 sec</td></tr>
+  <tr><td>3</td><td>Log the trade in Trade Log</td><td>1 min</td></tr>
+  <tr><td>4</td><td>Check Dashboard before the next trade</td><td>10 sec</td></tr>
+</table>
+<p>Two minutes a day. Cheaper than one blown challenge fee.</p>
+
+<div class="box">
+  <h3>There's a free tool first</h3>
+  <p>If you don't want to buy anything yet, use the
+  <a href="calculator.html">free position size calculator</a>. It's fully working, no signup,
+  and it does the sizing part of this on its own.</p>
+  <p style="margin-bottom:0">The paid version adds the tracking — trade log, live drawdown,
+  daily limit monitoring and the status light. Buy it when the tracking becomes the problem,
+  not before.</p>
+</div>
+
+<h2>What you get</h2>
+<ul>
+  <li><strong>Prop_Firm_Risk_Tracker.xlsx</strong> — works in Microsoft Excel and Google Sheets</li>
+  <li>3 sample rows already filled in so you can see how the numbers behave</li>
+  <li>Free updates when firm rules change</li>
+  <li>Format: <strong>.xlsx</strong>, instant download</li>
+</ul>
+
+<h2>Questions people ask</h2>
+
+<div class="faq">
+  <h3>Does it work in Google Sheets?</h3>
+  <p>Yes. Upload the file to Drive and open with Sheets. Everything calculates.</p>
+
+  <h3>Does it work with futures firms like Apex and Topstep?</h3>
+  <p>Yes, but those firms express limits in dollars per account size and use a
+  <em>trailing</em> drawdown rather than a static one. Set your numbers carefully and treat
+  the drawdown figure as a conservative guide. The daily loss limit and position sizer work
+  exactly the same.</p>
+
+  <h3>Is this financial advice?</h3>
+  <p>No. It is a bookkeeping tool. Prop-firm rules change without notice — always confirm
+  the numbers on your firm's own website before relying on them here. Trading carries risk
+  of loss and nothing here guarantees you will pass a challenge or make money.</p>
+
+  <h3>Will this make me profitable?</h3>
+  <p>No. What it does is stop you losing money to arithmetic, oversizing, and not noticing
+  how close you are to the daily limit. Those three things fail more challenges than bad
+  entries ever will.</p>
+
+  <h3>What if it doesn't work for me?</h3>
+  <p>7-day money-back if the file doesn't work as described. Email me and I'll refund you.</p>
+
+  <h3>I have another question</h3>
+  <p>Email me at <a href="mailto:moed.bouazizi07@gmail.com">moed.bouazizi07@gmail.com</a>.</p>
+</div>
+
+<div class="box dark">
+  <h3 style="margin-top:0">Get it</h3>
+  <a class="cta" href="https://moadibourek.gumroad.com/l/lxlajk">Get the Prop Firm Risk Tracker</a>
+  <p class="guarantee">Instant download · Excel + Google Sheets · 7-day money-back if the file doesn't work as described</p>
+  <p class="price">$19 one-time. <s>Goes to $29 after the first 10 buyers.</s></p>
+</div>
+
+</div></main>
+
+<footer>
+  <div class="wrap">
+  <p>Nothing on this page is financial advice. Prop-firm rules change without notice —
+  always confirm with your firm directly. Trading carries risk of loss.</p>
+  <p><a href="index.html">All posts</a> · <a href="calculator.html">Free calculator</a></p>
+  </div>
+</footer>
+</body>
+</html>

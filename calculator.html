@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Position Size Calculator for Prop Firm Challenges</title>
+<meta name="description" content="Free position size calculator for prop-firm challenge traders. Account size, risk %, entry and stop in — exact unit count out, with 1R and 2R targets. No signup.">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #F7F8FA; color: #1b2430;
+    font: 17px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: #FF6A00; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .bar { height: 5px; background: #FF6A00; }
+  header { background: #12233F; color: #fff; padding: 40px 24px 34px; }
+  .wrap { max-width: 860px; margin: 0 auto; padding: 0 24px; }
+  h1 { font-size: 31px; margin: 0 0 10px; letter-spacing: -0.5px; line-height: 1.2; }
+  .tag { color: #9FB2CC; margin: 0; font-size: 17px; }
+  main { padding: 36px 0 70px; }
+
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; align-items: start; }
+  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
+
+  .panel {
+    background: #fff; border: 1px solid #e4e9ef; border-radius: 12px; padding: 24px;
+  }
+  .panel h2 { font-size: 18px; margin: 0 0 16px; letter-spacing: -0.2px; }
+  .out { background: #12233F; border-color: #12233F; color: #fff; }
+
+  label { display: block; font-size: 13px; font-weight: 600; color: #5a6b80; margin: 0 0 5px; text-transform: uppercase; letter-spacing: 0.4px; }
+  .field { margin-bottom: 15px; }
+  input, select {
+    width: 100%; padding: 11px 13px; font-size: 16px; border: 1px solid #d4dce6;
+    border-radius: 8px; background: #fff; color: #1b2430; font-family: inherit;
+  }
+  input:focus, select:focus { outline: 2px solid #FF6A00; border-color: #FF6A00; }
+  .row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+  .presets { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 16px; }
+  .chip {
+    border: 1px solid #d4dce6; background: #fff; border-radius: 20px;
+    padding: 6px 13px; font-size: 13px; cursor: pointer; color: #40506a; font-weight: 600;
+  }
+  .chip:hover { border-color: #FF6A00; color: #FF6A00; }
+  .chip.on { background: #FF6A00; border-color: #FF6A00; color: #fff; }
+
+  .metric { padding: 13px 0; border-bottom: 1px solid rgba(255,255,255,0.12); }
+  .metric:last-child { border-bottom: 0; }
+  .metric .k { font-size: 12px; text-transform: uppercase; letter-spacing: 0.6px; color: #9FB2CC; }
+  .metric .v { font-size: 25px; font-weight: 700; letter-spacing: -0.5px; line-height: 1.25; }
+  .metric .v.big { font-size: 38px; color: #FF8C3B; }
+  .metric .v.warn { color: #FFB4A0; }
+
+  .note { font-size: 14px; color: #7a8798; margin-top: 16px; line-height: 1.6; }
+
+  .aside {
+    background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #FF6A00;
+    border-radius: 8px; padding: 22px 24px; margin: 34px 0 0;
+  }
+  .aside h3 { margin: 0 0 8px; font-size: 19px; }
+  .cta {
+    display: inline-block; background: #FF6A00; color: #fff; font-weight: 600;
+    padding: 13px 26px; border-radius: 8px; margin: 10px 0 4px;
+  }
+  .cta:hover { text-decoration: none; opacity: 0.92; }
+
+  h2.sec { font-size: 23px; margin: 42px 0 12px; letter-spacing: -0.3px; }
+  p { margin: 0 0 17px; }
+  ul { margin: 0 0 20px; padding-left: 22px; }
+  li { margin: 7px 0; }
+  code { background: #eceff3; padding: 2px 6px; border-radius: 4px; font-size: 15px; }
+  footer { border-top: 1px solid #e4e9ef; padding: 26px 0 60px; color: #7a8798; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="bar"></div>
+<header>
+  <div class="wrap">
+    <h1>Position Size Calculator</h1>
+    <p class="tag">Built for prop-firm challenges. Exact unit count, rounded down so you never oversize.</p>
+  </div>
+</header>
+
+<main><div class="wrap">
+
+<div class="grid">
+  <div class="panel">
+    <h2>Inputs</h2>
+
+    <div class="presets" id="presets"></div>
+
+    <div class="field">
+      <label>Account size ($)</label>
+      <input type="number" id="account" value="100000" step="1000" min="0">
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Risk per trade (%)</label>
+        <input type="number" id="riskpct" value="0.5" step="0.1" min="0">
+      </div>
+      <div class="field">
+        <label>Direction</label>
+        <select id="dir">
+          <option value="Long">Long</option>
+          <option value="Short">Short</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Entry price</label>
+        <input type="number" id="entry" value="5200" step="0.25">
+      </div>
+      <div class="field">
+        <label>Stop price</label>
+        <input type="number" id="stop" value="5195" step="0.25">
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Point value ($ per 1.00 move, per unit)</label>
+      <input type="number" id="pv" value="5" step="0.01" min="0">
+    </div>
+
+    <div class="row">
+      <div class="field">
+        <label>Daily loss limit (%)</label>
+        <input type="number" id="dailylimit" value="5" step="0.5" min="0">
+      </div>
+      <div class="field">
+        <label>Lost already today ($)</label>
+        <input type="number" id="losttoday" value="0" step="50" min="0">
+      </div>
+    </div>
+  </div>
+
+  <div class="panel out">
+    <h2>Result</h2>
+    <div class="metric">
+      <div class="k">Position size</div>
+      <div class="v big" id="units">20</div>
+      <div class="k">units / contracts — rounded down</div>
+    </div>
+    <div class="metric">
+      <div class="k">Risk if stopped</div>
+      <div class="v" id="riskamt">$500</div>
+      <div class="k" id="riskused">0.5% of account</div>
+    </div>
+    <div class="metric">
+      <div class="k">1R target</div>
+      <div class="v" id="r1">5205.00</div>
+    </div>
+    <div class="metric">
+      <div class="k">2R target</div>
+      <div class="v" id="r2">5210.00</div>
+      <div class="k" id="r2profit">+$1,000 if it hits</div>
+    </div>
+    <div class="metric">
+      <div class="k">Daily loss allowance left</div>
+      <div class="v" id="dailyleft">$5,000</div>
+      <div class="k" id="dailywarn">plenty of room</div>
+    </div>
+  </div>
+</div>
+
+<p class="note">
+  <strong>How it works:</strong> position size = risk amount ÷ (stop distance × point value).
+  Rounded <em>down</em> to a whole unit so you never risk more than planned. Slippage and
+  commissions are not included — they come out of your real result.
+</p>
+
+<div class="aside">
+  <h3>Calculating the size is the easy part</h3>
+  <p>The hard part is knowing how much of your <em>daily loss limit</em> you've burned, and
+  how close you are to failing on drawdown. That's what actually ends challenges.</p>
+  <p>The <strong>Prop Firm Risk Tracker</strong> does all of it automatically — position
+  sizing, trade log, live drawdown, and a status light that tells you when to stop.</p>
+  <a class="cta" href="https://moadibourek.gumroad.com/l/lxlajk">Get the full tracker — $19</a>
+  <p class="note">Excel + Google Sheets. Instant download. 7-day money-back if the file doesn't work as described.</p>
+</div>
+
+<h2 class="sec">The formula</h2>
+<p>Position size = <code>risk $ ÷ (stop distance × point value)</code></p>
+<p>Example: $100,000 account, 0.5% risk = $500. Entry 5200, stop 5195 = 5 points of risk.
+One point = $5 per unit. So 5 ÷ (5 × 5)... rather, $500 ÷ $25 = <strong>20 units</strong>.</p>
+
+<h2 class="sec">Why rounding down matters</h2>
+<p>If the maths gives you 13.7 units, trade 13. Rounding up is how you silently end up
+risking 0.6% instead of 0.5%. Over 200 trades that is real money, and it is the kind of
+leak you never notice because each individual trade looked fine.</p>
+
+<h2 class="sec">Risk per trade vs daily loss limit</h2>
+<p>These are two different constraints and people confuse them constantly.</p>
+<ul>
+  <li><strong>Risk per trade</strong> — how much one loss costs you. 0.5% is a sane default.</li>
+  <li><strong>Daily loss limit</strong> — how much you can lose in one day before the firm fails you. Usually 5%.</li>
+</ul>
+<p>If you risk 1% per trade and your daily limit is 5%, three losses in a morning and you
+are nearly done. At 0.5% you get ten attempts. Ten bad trades in a day is unlikely. Three
+is common.</p>
+
+<h2 class="sec">Point values for common instruments</h2>
+<ul>
+  <li><strong>MES</strong> (Micro E-mini S&amp;P) — $5 per point</li>
+  <li><strong>ES</strong> (E-mini S&amp;P) — $50 per point</li>
+  <li><strong>MNQ</strong> (Micro E-mini Nasdaq) — $2 per point</li>
+  <li><strong>NQ</strong> (E-mini Nasdaq) — $20 per point</li>
+  <li><strong>MGC</strong> (Micro Gold) — $10 per point</li>
+  <li><strong>GC</strong> (Gold) — $100 per point</li>
+</ul>
+<p>For FX, use the dollar value of a full 1.00 move in the pair per unit you trade.</p>
+
+</div></main>
+
+<footer><div class="wrap">
+  <p>© 2026. Free to use. Nothing here is financial advice — trading carries risk of loss.
+  <a href="index.html">All posts</a></p>
+</div></footer>
+
+<script>
+const INSTRUMENTS = [
+  { n: "MES", pv: 5,   entry: 5200,  stop: 5195 },
+  { n: "ES",  pv: 50,  entry: 5200,  stop: 5195 },
+  { n: "MNQ", pv: 2,   entry: 18000, stop: 17960 },
+  { n: "NQ",  pv: 20,  entry: 18000, stop: 17960 },
+  { n: "MGC", pv: 10,  entry: 2650,  stop: 2645 },
+  { n: "GC",  pv: 100, entry: 2650,  stop: 2645 },
+];
+
+const $ = (id) => document.getElementById(id);
+
+function money(v) {
+  const s = Math.abs(v).toLocaleString("en-US", { maximumFractionDigits: 0 });
+  return (v < 0 ? "-$" : "$") + s;
+}
+
+function calc() {
+  const account = parseFloat($("account").value) || 0;
+  const riskPct = parseFloat($("riskpct").value) || 0;
+  const entry   = parseFloat($("entry").value)  || 0;
+  const stop    = parseFloat($("stop").value)   || 0;
+  const pv      = parseFloat($("pv").value)     || 0;
+  const dir     = $("dir").value;
+  const dailyLimitPct = parseFloat($("dailylimit").value) || 0;
+  const lostToday     = parseFloat($("losttoday").value)  || 0;
+
+  const riskAmt   = account * riskPct / 100;
+  const stopDist  = Math.abs(entry - stop);
+  const perUnit   = stopDist * pv;
+
+  let units = 0;
+  if (perUnit > 0) units = Math.floor(riskAmt / perUnit);
+
+  const actualRisk = units * perUnit;
+  const riskUsedPct = account > 0 ? (actualRisk / account * 100) : 0;
+
+  const r1 = dir === "Long" ? entry + stopDist : entry - stopDist;
+  const r2 = dir === "Long" ? entry + 2 * stopDist : entry - 2 * stopDist;
+
+  const dailyLimit$ = account * dailyLimitPct / 100;
+  const dailyLeft = Math.max(0, dailyLimit$ - lostToday);
+
+  $("units").textContent   = units.toLocaleString("en-US");
+  $("riskamt").textContent = money(actualRisk);
+  $("riskused").textContent = riskUsedPct.toFixed(2).replace(/\.?0+$/, "") + "% of account";
+  $("r1").textContent = r1.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  $("r2").textContent = r2.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  $("r2profit").textContent = "+" + money(actualRisk * 2) + " if it hits";
+  $("dailyleft").textContent = money(dailyLeft);
+
+  const warn = $("dailywarn");
+  if (dailyLeft <= 0) {
+    warn.textContent = "STOP — daily limit used";
+    warn.style.color = "#FFB4A0";
+  } else if (dailyLeft < dailyLimit$ * 0.5) {
+    warn.textContent = "under half left — reduce size or stop";
+    warn.style.color = "#FFB4A0";
+  } else {
+    warn.textContent = "plenty of room";
+    warn.style.color = "#9FB2CC";
+  }
+
+  if (perUnit === 0) {
+    $("units").textContent = "—";
+    warn.textContent = "set entry and stop prices";
+    warn.style.color = "#FFB4A0";
+  }
+}
+
+function buildPresets() {
+  const box = $("presets");
+  INSTRUMENTS.forEach((ins) => {
+    const b = document.createElement("button");
+    b.className = "chip";
+    b.textContent = ins.n;
+    b.type = "button";
+    b.onclick = () => {
+      $("pv").value = ins.pv;
+      $("entry").value = ins.entry;
+      $("stop").value = ins.stop;
+      [...box.children].forEach((c) => c.classList.remove("on"));
+      b.classList.add("on");
+      calc();
+    };
+    box.appendChild(b);
+  });
+}
+
+document.querySelectorAll("input, select").forEach((el) => {
+  el.addEventListener("input", calc);
+});
+
+buildPresets();
+calc();
+</script>
+</body>
+</html>

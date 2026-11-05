@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Prop Firm Daily Loss Limit vs Max Drawdown — The Rule That Actually Ends Accounts · Moad&#x27;s Trading Notes</title>
+<meta name="description" content="Risk management for traders who keep blowing the rule, not the trade.">
+<link rel="alternate" type="application/rss+xml" title="Moad&#x27;s Trading Notes" href="feed.xml">
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #F7F8FA; color: #1b2430;
+    font: 17px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: #FF6A00; text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .bar { height: 5px; background: #FF6A00; }
+  header { background: #12233F; color: #fff; padding: 44px 24px 36px; }
+  .wrap { max-width: 760px; margin: 0 auto; padding: 0 24px; }
+  h1.site { font-size: 30px; margin: 0 0 8px; letter-spacing: -0.4px; }
+  .tag { color: #9FB2CC; font-size: 17px; margin: 0; }
+  main { padding: 40px 0 80px; }
+  h1 { font-size: 32px; line-height: 1.25; letter-spacing: -0.5px; margin: 0 0 12px; }
+  h2 { font-size: 23px; margin: 34px 0 10px; letter-spacing: -0.2px; }
+  h3 { font-size: 19px; margin: 26px 0 8px; }
+  p { margin: 0 0 18px; }
+  li { margin: 6px 0; }
+  ul { margin: 0 0 20px; padding-left: 22px; }
+  blockquote {
+    margin: 22px 0; padding: 12px 20px; border-left: 3px solid #FF6A00;
+    background: #fff; color: #445; border-radius: 0 6px 6px 0;
+  }
+  code { background: #eceff3; padding: 2px 6px; border-radius: 4px; font-size: 15px; }
+  pre { background: #12233F; color: #e6edf5; padding: 16px 18px; border-radius: 8px; overflow-x: auto; }
+  pre code { background: none; padding: 0; color: inherit; }
+  hr { border: 0; border-top: 1px solid #dde3ea; margin: 32px 0; }
+  .meta { color: #7a8798; font-size: 14px; margin: 0 0 26px; }
+  .card {
+    background: #fff; border: 1px solid #e4e9ef; border-radius: 10px;
+    padding: 22px 24px; margin: 0 0 18px;
+  }
+  .card h3 { margin: 0 0 6px; }
+  .cta {
+    display: inline-block; background: #FF6A00; color: #fff; font-weight: 600;
+    padding: 13px 26px; border-radius: 8px; margin: 8px 0 26px;
+  }
+  .cta:hover { text-decoration: none; opacity: 0.92; }
+  .aside {
+    background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #FF6A00;
+    border-radius: 8px; padding: 20px 22px; margin: 30px 0;
+  }
+  .aside h4 { margin: 0 0 8px; font-size: 16px; }
+  nav ul { list-style: none; padding: 0; margin: 22px 0 0; display: flex; flex-wrap: wrap; gap: 18px; }
+  nav li { margin: 0; font-size: 15px; }
+  nav a { color: #B9C7DA; }
+  footer { border-top: 1px solid #e4e9ef; padding: 28px 0 60px; color: #7a8798; font-size: 14px; }
+</style>
+</head>
+<body>
+<div class="bar"></div>
+<header>
+  <div class="wrap">
+    <h1 class="site"><a href="index.html" style="color:#fff">Moad&#x27;s Trading Notes</a></h1>
+    <p class="tag">Risk management for traders who keep blowing the rule, not the trade.</p>
+    <nav><ul><li><a href="calculator.html">Free Calculator</a></li><li><a href="sales.html">The Tracker</a></li>
+<li><a href="2026-11-05-daily-limit-vs-max-drawdown.html">Prop Firm Daily Loss Limit vs Max Drawdown — The Rule That Actually Ends Accounts</a></li>
+<li><a href="2026-11-05-daily-loss-limit.html">The Rule That Actually Fails People In Prop Challenges</a></li>
+<li><a href="2026-11-05-position-sizing-prop-firm.html">Position Sizing For A Prop Firm Challenge — The 10-Second Method</a></li>
+<li><a href="2026-11-05-why-you-fail-challenges.html">Why You Keep Failing Prop Firm Challenges (It&#x27;s Not Your Strategy)</a></li></ul></nav>
+  </div>
+</header>
+<main><div class="wrap">
+        <p class="meta">2026-11-05</p>
+        <h1>Prop Firm Daily Loss Limit vs Max Drawdown — The Rule That Actually Ends Accounts</h1>
+        
+
+<p>There are two loss limits on every prop-firm account and people confuse them constantly. One of them fails far more traders than the other, and it isn't the one you'd expect.</p>
+
+<h2>The two rules</h2>
+
+<p><strong>Daily loss limit</strong> — how much you can lose in a single day before the firm fails the account. Usually around 5% of the starting balance. It resets at midnight (or at the firm's rollover).</p>
+
+<p><strong>Max drawdown</strong> — the total you can lose over the life of the account. Usually around 10%.</p>
+
+<p>Break either one and the account is gone. But they behave completely differently, and that's where people get caught.</p>
+
+<h2>Why the daily limit is the dangerous one</h2>
+
+<p>Because it resets, it feels less serious. You have a bad morning, you use 70% of the allowance, and you think "it resets tonight anyway — one more trade to get back to even".</p>
+
+<p>That trade is the one that ends it.</p>
+
+<p>Three things compound at once: you size up because you're annoyed, your patience is gone, and you've left yourself almost no room for slippage or a gap. The daily limit doesn't care that it resets tomorrow. It only cares about right now.</p>
+
+<h2>A breach is never sudden</h2>
+
+<p>People imagine failing a challenge as one catastrophic trade. It's almost never that. It's a slow slide you didn't watch.</p>
+
+<p>A typical pattern:</p>
+
+<ul>
+<li>Small loss in the morning — fine</li>
+<li>Slightly bigger trade because "this setup is better"</li>
+<li>Third trade, now genuinely angry</li>
+<li>Look at the dashboard: 90% of today's allowance gone</li>
+<li>Fourth trade for the road</li>
+</ul>
+<p>None of those decisions felt reckless individually. The total was fatal.</p>
+
+<h2>How to size around both</h2>
+
+<p>Work backwards from the daily limit, not forwards from a blog post that says "risk 1%".</p>
+
+<p>If your daily limit is 5% and you risk 1% per trade, you get five attempts in a day. That sounds fine until you remember that three losses before lunch is a completely ordinary trading day.</p>
+
+<p>At 0.5% per trade you get ten attempts. Ten bad trades in a row is genuinely unlikely. Three is common.</p>
+
+<p>Use the <a href="calculator.html">free position size calculator</a> to see what this does to your unit count. The maths is one line: risk amount divided by (stop distance × point value).</p>
+
+<h2>Trailing vs static drawdown</h2>
+
+<p>Worth knowing which one your firm uses, because it changes how you manage a winning open trade.</p>
+
+<p><strong>Static</strong> is measured from the starting balance and never moves. You know exactly where you stand.</p>
+
+<p><strong>Trailing</strong> follows your highest equity point. It moves up as you profit — but it does not move back down when you give gains back. Make $2,000 and the limit rises. Give it back and the limit stays where it rose to. That surprises people.</p>
+
+<p>If your firm trails, treat the drawdown figure as stricter than it looks.</p>
+
+<h2>The rule I use now</h2>
+
+<p>If I've used 80% of today's loss allowance, I stop. Not "one more", not "this setup is different". Stop.</p>
+
+<p>It has nothing to do with the quality of the next trade. It's about not handing the firm a reason to fail me on a technicality when my strategy was never the problem.</p>
+
+<h2>What actually helps</h2>
+
+<p>Knowing three numbers before every trade:</p>
+
+<ul>
+<li>How much of today's loss allowance is left</li>
+<li>How much total drawdown is left</li>
+<li>The exact position size that keeps one loss to a fixed percentage</li>
+</ul>
+<p>If you can't answer those in ten seconds, you're guessing. Guessing is what ends accounts.</p>
+
+<p>The <a href="sales.html">Prop Firm Risk Tracker</a> does all three automatically and gives you a status light — SAFE, CAUTION, or STOP TRADING. If you'd rather not buy anything, the free calculator above handles the sizing part on its own.</p>
+
+<hr>
+
+<p><em>Nothing here is financial advice. Prop-firm rules change without notice — confirm the numbers on your firm's own site before relying on them. Trading carries risk of loss.</em></p>
+
+        <hr>
+        <div class="aside">
+  <h4>Prop Firm Risk Tracker</h4>
+  <p>A spreadsheet that watches your daily loss limit, drawdown and position size so you
+  don't get failed on a technicality. Excel + Google Sheets.</p>
+  <a class="cta" href="https://moadibourek.gumroad.com/l/lxlajk">Get it — $19</a>
+</div>
+        <p><a href="index.html">← All posts</a></p>
+        </div></main>
+<footer><div class="wrap">
+  <p>© 2026 Moad. Nothing here is financial advice.
+  Trading carries risk of loss.</p>
+</div></footer>
+</body>
+</html>
