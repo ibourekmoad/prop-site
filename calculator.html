@@ -56,6 +56,19 @@
 
   .note { font-size: 14px; color: #7a8798; margin-top: 16px; line-height: 1.6; }
 
+  .capture {
+    background: #fff; border: 1px solid #e4e9ef; border-top: 4px solid #FF6A00;
+    border-radius: 12px; padding: 26px 28px; margin: 30px 0;
+  }
+  .capture h3 { margin: 0 0 8px; font-size: 21px; letter-spacing: -0.3px; }
+  .capture p { margin: 0 0 16px; }
+  .capture-placeholder {
+    border: 2px dashed #c8d2de; border-radius: 10px; padding: 26px 20px;
+    text-align: center; color: #7a8798; background: #F7F8FA;
+  }
+  .capture-placeholder small { display: inline-block; margin-top: 6px; color: #9aa7b8; }
+  .capture-fineprint { font-size: 13px; color: #9aa7b8; margin: 12px 0 0 !important; }
+
   .aside {
     background: #fff; border: 1px solid #e4e9ef; border-left: 4px solid #FF6A00;
     border-radius: 8px; padding: 22px 24px; margin: 34px 0 0;
@@ -173,6 +186,38 @@
   Rounded <em>down</em> to a whole unit so you never risk more than planned. Slippage and
   commissions are not included — they come out of your real result.
 </p>
+
+<!-- ==========================================================================
+     EMAIL CAPTURE — EMBED PLACEHOLDER
+     ==========================================================================
+     SWAP THIS WHOLE BLOCK for the MailerLite embedded-form code once it exists.
+
+     Steps:
+       1. MailerLite -> Forms -> Create form -> Embedded form
+       2. Name it "Challenge Survival Cheat Sheet"
+       3. Design it, then set the post-submit action to deliver the PDF:
+          https://ibourekmoad.github.io/prop-site/challenge-survival-cheat-sheet.pdf
+       4. Publish -> Copy the embed code
+       5. PASTE THE ENTIRE <script>+<div> SNIPPET OVER THIS COMMENT BLOCK
+          (keep the wrapper below so styling stays consistent)
+
+     Keep this file human-readable: the placeholder must stay obviously marked
+     until the real form is pasted in.
+     ========================================================================== -->
+<div class="capture" id="email-capture">
+  <h3>Get the free Challenge Survival Cheat Sheet</h3>
+  <p>Two pages: the formula, the three numbers that end challenges, and a printable
+  pre-trade checklist. Free — no card, no trial.</p>
+
+  <!-- >>> PASTE MAILERLite EMBED CODE BELOW THIS LINE <<< -->
+  <div class="capture-placeholder">
+    <em>Email form embed goes here.</em><br>
+    <small>Replace this comment block with the MailerLite embedded-form snippet.</small>
+  </div>
+  <!-- >>> END MAILERLite EMBED <<< -->
+
+  <p class="capture-fineprint">No spam. Unsubscribe any time.</p>
+</div>
 
 <div class="aside">
   <h3>Calculating the size is the easy part</h3>
